@@ -22,11 +22,11 @@ async fn read_text(path : String) -> String {
 async fn run(args : Array[String]) -> Int32 {
   if args.is_empty() || args == ["--help"] {
     @stdio.stdout.write(
-      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nexplain PROBLEM.json [LAYOUT.json]\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
+      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nexplain PROBLEM.json [LAYOUT.json]\ncompare BEFORE.json AFTER.json [MAX_GROWTH_BYTES]\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
     )
     return 0
   }
-  if args.length() < 2 || args.length() > 3 {
+  if args.length() < 2 || args.length() > 4 {
     raise Usage("see --help for command arguments")
   }
   if args[0] == "lifetimes" && args.length() == 2 {
@@ -38,7 +38,24 @@ async fn run(args : Array[String]) -> Int32 {
   }
   let problem : @arena.Problem = @arena.decode_problem(read_text(args[1]))
   let command = args[0]
-  if command == "exact" {
+  if command == "compare" && (args.length() == 3 || args.length() == 4) {
+    let candidate = @arena.decode_problem(read_text(args[2]))
+    let growth = if args.length() == 4 {
+      @string.parse_int64(args[3])
+    } else {
+      0L
+    }
+    let report = @arena.compare_layouts(
+      problem,
+      @arena.plan(problem),
+      candidate,
+      @arena.plan(candidate),
+      max_growth_bytes=growth,
+    )
+    @stdio.stdout.write(Json(report).stringify(indent=2) + "\n")
+    return if report.gate_passed { 0 } else { 1 }
+  }
+  if command == "exact" && args.length() <= 3 {
     let budget = if args.length() == 3 {
       @string.parse_int(args[2])
     } else {
@@ -54,7 +71,7 @@ async fn run(args : Array[String]) -> Int32 {
       3
     }
   }
-  if command == "explain" {
+  if command == "explain" && args.length() <= 3 {
     let layout = if args.length() == 3 {
       @arena.decode_layout(read_text(args[2]))
     } else {

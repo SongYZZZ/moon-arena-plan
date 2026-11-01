@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "banks": [
+    {
+      "id": "ram",
+      "capacity": "64"
+    }
+  ],
+  "buffers": [
+    {
+      "id": "work",
+      "bytes": "16",
+      "first": 0,
+      "last": 0,
+      "alignment": "16",
+      "banks": [
+        "ram"
+      ]
+    }
+  ]
+}

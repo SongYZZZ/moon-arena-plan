@@ -9,6 +9,8 @@ import {
 // Values
 pub fn c_header(Problem, Layout) -> String raise PlanError
 
+pub fn compare_layouts(Problem, Layout, Problem, Layout, max_growth_bytes? : Int64) -> Comparison raise PlanError
+
 pub fn decode_graph(String) -> Graph raise PlanError
 
 pub fn decode_layout(String) -> Layout raise PlanError
@@ -46,6 +48,25 @@ pub fn Bank::not_equal(Self, Self) -> Bool
 pub fn Bank::to_json(Self) -> Json
 pub fn Bank::to_repr(Self) -> @debug.Repr
 
+pub(all) struct BankDelta {
+  bank : String
+  change : String
+  before_capacity : Int64?
+  after_capacity : Int64?
+  before_highwater : Int64
+  after_highwater : Int64
+  highwater_delta : Int64
+  before_peak_live_bytes : Int64
+  after_peak_live_bytes : Int64
+  peak_live_delta : Int64
+  growth_exceeded : Bool
+  candidate_over_budget : Bool
+} derive(Eq, ToJson, @debug.Debug)
+pub fn BankDelta::equal(Self, Self) -> Bool
+pub fn BankDelta::not_equal(Self, Self) -> Bool
+pub fn BankDelta::to_json(Self) -> Json
+pub fn BankDelta::to_repr(Self) -> @debug.Repr
+
 pub(all) struct BankUsage {
   bank : String
   capacity : Int64
@@ -74,6 +95,18 @@ pub fn Buffer::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeErr
 pub fn Buffer::not_equal(Self, Self) -> Bool
 pub fn Buffer::to_json(Self) -> Json
 pub fn Buffer::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Comparison {
+  allowed_growth_bytes : Int64
+  baseline_valid : Bool
+  candidate_valid : Bool
+  gate_passed : Bool
+  banks : Array[BankDelta]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn Comparison::equal(Self, Self) -> Bool
+pub fn Comparison::not_equal(Self, Self) -> Bool
+pub fn Comparison::to_json(Self) -> Json
+pub fn Comparison::to_repr(Self) -> @debug.Repr
 
 pub(all) struct ExactResult {
   status : String
