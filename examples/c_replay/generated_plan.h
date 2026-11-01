@@ -1,0 +1,16 @@
+#ifndef MOON_ARENA_PLAN_H
+#define MOON_ARENA_PLAN_H
+#include <stdint.h>
+/* a in ram */
+#define MP_BUFFER_0_OFFSET UINT64_C(0)
+#define MP_BUFFER_0_BYTES UINT64_C(24)
+#define MP_BUFFER_0_ALIGNMENT UINT64_C(16)
+/* b in ram */
+#define MP_BUFFER_1_OFFSET UINT64_C(32)
+#define MP_BUFFER_1_BYTES UINT64_C(16)
+#define MP_BUFFER_1_ALIGNMENT UINT64_C(16)
+/* c in ram */
+#define MP_BUFFER_2_OFFSET UINT64_C(0)
+#define MP_BUFFER_2_BYTES UINT64_C(24)
+#define MP_BUFFER_2_ALIGNMENT UINT64_C(16)
+#endif

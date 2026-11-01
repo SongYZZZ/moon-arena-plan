@@ -1,0 +1,36 @@
+name: CI
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: hustcer/setup-moonbit@v1.22
+        with:
+          version: '0.10.16+b1a0e846e'
+          core-version: '0.10.16+b1a0e846e'
+      - run: moon version --all
+      - run: moon update
+      - run: moon fmt --check
+      - run: moon check --deny-warn
+      - run: moon test --deny-warn
+      - run: moon test --target js -p SongYZZZ/moon-arena-plan --deny-warn
+      - run: moon test --target wasm-gc -p SongYZZZ/moon-arena-plan --deny-warn
+      - run: moon build --release --deny-warn
+      - run: python3 scripts/verify.py --exe _build/native/release/build/cmd/arenaplan/arenaplan.exe
+      - run: moon run examples/c_replay --deny-warn
+      - run: moon run cmd/arenaplan -- lifetimes examples/graph.json
+      - run: moon info && git diff --exit-code -- '*.mbti'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification
+          path: artifacts/verification.json

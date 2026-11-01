@@ -1,0 +1,159 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "SongYZZZ/moon-arena-plan"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+// Values
+pub fn c_header(Problem, Layout) -> String raise PlanError
+
+pub fn decode_graph(String) -> Graph raise PlanError
+
+pub fn decode_layout(String) -> Layout raise PlanError
+
+pub fn decode_problem(String) -> Problem raise PlanError
+
+pub fn lifetimes(Graph) -> Problem raise PlanError
+
+pub fn plan(Problem) -> Layout raise PlanError
+
+pub fn summarize(Problem, Layout) -> Array[BankUsage] raise PlanError
+
+pub fn validate(Problem) -> Unit raise PlanError
+
+pub fn verify(Problem, Layout) -> Array[Finding] raise PlanError
+
+// Errors
+pub suberror PlanError {
+  PlanError(String, String)
+} derive(@debug.Debug)
+pub fn PlanError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+pub(all) struct Bank {
+  id : String
+  capacity : Int64
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Bank::equal(Self, Self) -> Bool
+pub fn Bank::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Bank::not_equal(Self, Self) -> Bool
+pub fn Bank::to_json(Self) -> Json
+pub fn Bank::to_repr(Self) -> @debug.Repr
+
+pub(all) struct BankUsage {
+  bank : String
+  capacity : Int64
+  highwater : Int64
+  peak_live_bytes : Int64
+  peak_step : Int32
+  fits : Bool
+} derive(Eq, ToJson, @debug.Debug)
+pub fn BankUsage::equal(Self, Self) -> Bool
+pub fn BankUsage::not_equal(Self, Self) -> Bool
+pub fn BankUsage::to_json(Self) -> Json
+pub fn BankUsage::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Buffer {
+  id : String
+  bytes : Int64
+  first : Int32
+  last : Int32
+  alignment : Int64
+  banks : Array[String]
+  fixed_bank : String?
+  fixed_offset : Int64?
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Buffer::equal(Self, Self) -> Bool
+pub fn Buffer::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Buffer::not_equal(Self, Self) -> Bool
+pub fn Buffer::to_json(Self) -> Json
+pub fn Buffer::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Finding {
+  code : String
+  buffer : String
+  other : String
+  message : String
+} derive(Eq, ToJson, @debug.Debug)
+pub fn Finding::equal(Self, Self) -> Bool
+pub fn Finding::not_equal(Self, Self) -> Bool
+pub fn Finding::to_json(Self) -> Json
+pub fn Finding::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Graph {
+  schema : Int32
+  banks : Array[Bank]
+  tensors : Array[Tensor]
+  steps : Array[Step]
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Graph::equal(Self, Self) -> Bool
+pub fn Graph::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Graph::not_equal(Self, Self) -> Bool
+pub fn Graph::to_json(Self) -> Json
+pub fn Graph::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Layout {
+  schema : Int32
+  placements : Array[Placement]
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Layout::equal(Self, Self) -> Bool
+pub fn Layout::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Layout::not_equal(Self, Self) -> Bool
+pub fn Layout::to_json(Self) -> Json
+pub fn Layout::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Placement {
+  id : String
+  bank : String
+  offset : Int64
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Placement::equal(Self, Self) -> Bool
+pub fn Placement::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Placement::not_equal(Self, Self) -> Bool
+pub fn Placement::to_json(Self) -> Json
+pub fn Placement::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Problem {
+  schema : Int32
+  banks : Array[Bank]
+  buffers : Array[Buffer]
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Problem::equal(Self, Self) -> Bool
+pub fn Problem::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Problem::not_equal(Self, Self) -> Bool
+pub fn Problem::to_json(Self) -> Json
+pub fn Problem::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Step {
+  id : String
+  inputs : Array[String]
+  outputs : Array[String]
+  scratch : Array[String]
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Step::equal(Self, Self) -> Bool
+pub fn Step::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Step::not_equal(Self, Self) -> Bool
+pub fn Step::to_json(Self) -> Json
+pub fn Step::to_repr(Self) -> @debug.Repr
+
+pub(all) struct Tensor {
+  id : String
+  bytes : Int64
+  alignment : Int64
+  banks : Array[String]
+  fixed_bank : String?
+  fixed_offset : Int64?
+  source : Bool
+  retain : Bool
+} derive(Eq, ToJson, @debug.Debug, @json.FromJson)
+pub fn Tensor::equal(Self, Self) -> Bool
+pub fn Tensor::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+pub fn Tensor::not_equal(Self, Self) -> Bool
+pub fn Tensor::to_json(Self) -> Json
+pub fn Tensor::to_repr(Self) -> @debug.Repr
+
+// Type aliases
+
+// Traits

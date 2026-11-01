@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "banks": [
+    {
+      "id": "ram",
+      "capacity": "128"
+    }
+  ],
+  "tensors": [
+    {
+      "id": "input",
+      "bytes": "16",
+      "alignment": "16",
+      "banks": [
+        "ram"
+      ],
+      "source": true,
+      "retain": false
+    },
+    {
+      "id": "mid",
+      "bytes": "16",
+      "alignment": "16",
+      "banks": [
+        "ram"
+      ],
+      "source": false,
+      "retain": false
+    },
+    {
+      "id": "result",
+      "bytes": "16",
+      "alignment": "16",
+      "banks": [
+        "ram"
+      ],
+      "source": false,
+      "retain": true
+    },
+    {
+      "id": "scratch",
+      "bytes": "16",
+      "alignment": "16",
+      "banks": [
+        "ram"
+      ],
+      "source": false,
+      "retain": false
+    }
+  ],
+  "steps": [
+    {
+      "id": "encode",
+      "inputs": [
+        "input"
+      ],
+      "outputs": [
+        "mid"
+      ],
+      "scratch": [
+        "scratch"
+      ]
+    },
+    {
+      "id": "classify",
+      "inputs": [
+        "mid"
+      ],
+      "outputs": [
+        "result"
+      ],
+      "scratch": []
+    }
+  ]
+}

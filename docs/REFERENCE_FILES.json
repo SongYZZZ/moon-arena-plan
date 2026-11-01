@@ -1,0 +1,14 @@
+{
+  "greedy.cc": {
+    "git_blob_sha": "2e5cd2c0d7a64721495c14421fa9f6dbf86eb9e0",
+    "sha256": "69657905f4def9504acc81f53f16463f9fc5a16ad841c1f39015ae29803d5b32"
+  },
+  "tensorflow/lite/micro/memory_planner/greedy_memory_planner.h": {
+    "git_blob_sha": "8858c845095eb067a0b7bca9d23d02843ff5ec0a",
+    "sha256": "2e16b7ad814160caa9b13769a62641ab6c369011a6f3d8ec66ccbbb21ae09fd7"
+  },
+  "tensorflow/lite/micro/memory_planner/micro_memory_planner.h": {
+    "git_blob_sha": "f76a3757286ab875641778fb264f7a069f5144a7",
+    "sha256": "a726331f339ac271a3330e44a17a7a7ef0912f1b72f5b341614b59cb448e9b50"
+  }
+}
