@@ -22,7 +22,7 @@ async fn read_text(path : String) -> String {
 async fn run(args : Array[String]) -> Int32 {
   if args.is_empty() || args == ["--help"] {
     @stdio.stdout.write(
-      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nexplain PROBLEM.json [LAYOUT.json]\ncompare BEFORE.json AFTER.json [MAX_GROWTH_BYTES]\nlifetimes GRAPH.json\ntrace TRACE.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
+      "MoonArenaPlan 0.2.0\nexact PROBLEM.json [MAX_NODES]\nexplain PROBLEM.json [LAYOUT.json]\ncompare BEFORE.json AFTER.json [MAX_GROWTH_BYTES]\nlifetimes GRAPH.json\ntrace TRACE.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
     )
     return 0
   }

@@ -3,13 +3,13 @@
   "banks": [
     {
       "id": "ram",
-      "capacity": "64"
+      "capacity": "65536"
     }
   ],
   "buffers": [
     {
       "id": "work",
-      "bytes": "16",
+      "bytes": "16384",
       "first": 0,
       "last": 0,
       "alignment": "16",

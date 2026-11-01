@@ -16,7 +16,7 @@ moon build --release --deny-warn
 moon test --deny-warn
 ```
 
-库安装：`moon add SongYZZZ/moon-arena-plan`。在 moon.pkg 导入 `"SongYZZZ/moon-arena-plan" @arena`，调用 `plan`、`verify`、`summarize`、`lifetimes`、`c_header`。API 见 pkg.generated.mbti，输入契约见 [SPEC.md](SPEC.md)。
+库安装：`moon add SongYZZZ/moon-arena-plan`。在 moon.pkg 导入 `"SongYZZZ/moon-arena-plan" @arena`，调用 `plan`、`verify`、`summarize`、`lifetimes`、`trace_lifetimes`、`solve_exact`、`explain`、`compare_layouts`、`c_header`。API 见 pkg.generated.mbti，输入契约见 [SPEC.md](SPEC.md)。
 
 ## 可复现案例
 
@@ -60,3 +60,31 @@ schema 1 的完整字段及拒绝行为是本版本兼容终点。字节数、�
 当前不读取 ONNX/TFLite 文件，不执行张量算子，不把外部框架的分配器作为产品实现。标准内存规划技术的公开参考与许可证见 [docs/REFERENCES.md](docs/REFERENCES.md)。
 
 [终审自查与修复记录](docs/FINAL_REVIEW.md)包含实际结果和保留风险。
+
+## 0.2.0 新增的完整工作流
+
+```powershell
+# 区分贪心失败、有界穷举无解和搜索预算耗尽
+moon run cmd/arenaplan -- exact examples/exact_alignment_kib.json
+moon run cmd/arenaplan -- explain examples/exact_alignment_kib.json
+# explain 在上述贪心布局下预期退出 1；exact 找到 9 KiB 的可行见证
+
+# CI 回归：16 KiB 升级为 32 KiB，显式允许每 bank 增长 16 KiB
+moon run cmd/arenaplan -- compare examples/regression_before.json examples/regression_after.json 16384
+
+# C 例程输出调用点轨迹，保存其 stdout 后导入
+moon run examples/trace_capture
+moon run cmd/arenaplan -- trace trace.json
+```
+
+[精确求解](docs/EXACT.md)限 12 个缓冲区、4 个 bank，默认 100000 次候选检查，上限 1000000。只有完整枚举结束才返回 infeasible；预算耗尽返回 limit，退出 3。它判断可行性，不保证最小占用。
+
+[峰值解释](docs/EXPLAIN.md)列出峰值时存活的缓冲区，区分布局超预算与当前 bank 分配下的活跃需求。[版本比较](docs/COMPARE.md)按 bank 检查高水位与活跃峰值增长、容量缩减和 bank 增删。声明的增长阈值不会豁免容量违规。
+
+[轨迹导入](docs/TRACE.md)从完整、非递减的 begin/read/write/end 事件推导闭合生命周期，检查已记录路径中的越界使用；它依赖调用点准确记录，不拦截任意指针访问。CI 运行 C 生产者、导入轨迹、生成布局与头文件，再用 C replay 检查数据保持。
+
+```powershell
+python scripts/verify_extensions.py --exe _build/native/release/build/cmd/arenaplan/arenaplan.exe --trace-exe _build/native/release/build/examples/trace_capture/trace_capture.exe
+```
+
+该检查用独立笛卡尔积枚举器核对小问题的可行／不可行结果，并核对搜索限额、版本门禁和实际 C 轨迹流程。

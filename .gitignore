@@ -3,3 +3,6 @@
 /.tools/
 /artifacts/
 *.zip
+
+**/__pycache__/
+*.pyc

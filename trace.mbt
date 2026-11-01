@@ -27,8 +27,12 @@ pub(all) struct ExecutionTrace {
 /// Import a complete logical last-use trace. Only recorded accesses are checked.
 /// Every ID describes one begin/end lifetime; steps are nondecreasing and inclusive.
 pub fn trace_lifetimes(trace : ExecutionTrace) -> Problem raise PlanError {
-  if trace.schema != 1 || trace.events.length() > 65536 {
-    reject("TraceLimit", "trace schema must be 1 with at most 65536 events")
+  if trace.schema != 1 ||
+    trace.buffers.length() > 2048 ||
+    trace.events.length() > 65536 {
+    reject(
+      "TraceLimit", "trace schema 1 supports at most 2048 buffers and 65536 events",
+    )
   }
   let templates = trace.buffers.map(b => {
     (

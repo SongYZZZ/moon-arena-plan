@@ -167,3 +167,17 @@ test "trace decoding rejects misspelled metadata and fractional steps" {
     _ => fail("fractional trace step must reject")
   }
 }
+
+///|
+test "trace API rejects oversized metadata before constructing derived buffers" {
+  let many : Array[@arena.TrackedBuffer] = []
+  for _ in 0..<2049 {
+    many.push(trace_buffer("a"))
+  }
+  assert_true(trace_reject({ ..trace([]), buffers: many, }, "TraceLimit"))
+  let events : Array[@arena.TraceEvent] = []
+  for _ in 0..<65537 {
+    events.push(event(0, "begin"))
+  }
+  assert_true(trace_reject(trace(events), "TraceLimit"))
+}
