@@ -5,7 +5,12 @@ fn finding(
   id : String,
   message : String,
   other~ : String = "",
-) -> Unit {
+) -> Unit raise PlanError {
+  if out.length() >= 4096 {
+    reject(
+      "FindingLimit", "layout produces more than 4096 violations; no partial valid verdict",
+    )
+  }
   out.push({ code, buffer: id, other, message, })
 }
 

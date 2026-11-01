@@ -290,3 +290,20 @@ test "stable ASCII ID ordering includes unequal lengths" {
   let p = problem([buf("z", 1L, 0, 0), buf("aa", 1L, 0, 0), buf("a", 1L, 0, 0)])
   assert_eq(@arena.plan(p).placements.map(p => p.id), ["a", "aa", "z"])
 }
+
+///|
+test "adversarial layout diagnostics have a resource bound" {
+  let buffers : Array[@arena.Buffer] = []
+  let placements : Array[@arena.Placement] = []
+  for i in 0..<100 {
+    let id = "b" + i.to_string()
+    buffers.push(buf(id, 1L, 0, 0))
+    placements.push({ id, bank: "ram", offset: 0L, })
+  }
+  try @arena.verify(problem(buffers), { schema: 1, placements, }) catch {
+    @arena.PlanError(code, _) => assert_eq(code, "FindingLimit")
+  } noraise {
+    _ =>
+      fail("adversarial overlapping layout must stop diagnostic amplification")
+  }
+}

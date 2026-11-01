@@ -26,6 +26,9 @@ jobs:
       - run: moon test --target wasm-gc -p SongYZZZ/moon-arena-plan --deny-warn
       - run: moon build --release --deny-warn
       - run: python3 scripts/verify.py --exe _build/native/release/build/cmd/arenaplan/arenaplan.exe
+      - run: python3 scripts/reference.py
+        env:
+          GH_TOKEN: ${{ github.token }}
       - run: moon run examples/c_replay --deny-warn
       - run: moon run cmd/arenaplan -- lifetimes examples/graph.json
       - run: moon info && git diff --exit-code -- '*.mbti'
@@ -33,4 +36,6 @@ jobs:
         if: always()
         with:
           name: verification
-          path: artifacts/verification.json
+          path: |
+            artifacts/verification.json
+            artifacts/reference.json
