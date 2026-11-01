@@ -22,7 +22,7 @@ async fn read_text(path : String) -> String {
 async fn run(args : Array[String]) -> Int32 {
   if args.is_empty() || args == ["--help"] {
     @stdio.stdout.write(
-      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
+      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nexplain PROBLEM.json [LAYOUT.json]\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
     )
     return 0
   }
@@ -53,6 +53,16 @@ async fn run(args : Array[String]) -> Int32 {
     } else {
       3
     }
+  }
+  if command == "explain" {
+    let layout = if args.length() == 3 {
+      @arena.decode_layout(read_text(args[2]))
+    } else {
+      @arena.plan(problem)
+    }
+    let peaks = @arena.explain(problem, layout)
+    @stdio.stdout.write(Json(peaks).stringify(indent=2) + "\n")
+    return if peaks.any(p => p.layout_over_budget_by > 0L) { 1 } else { 0 }
   }
   if (command == "plan" || command == "layout") && args.length() == 2 {
     let layout = @arena.plan(problem)

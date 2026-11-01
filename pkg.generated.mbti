@@ -15,6 +15,8 @@ pub fn decode_layout(String) -> Layout raise PlanError
 
 pub fn decode_problem(String) -> Problem raise PlanError
 
+pub fn explain(Problem, Layout) -> Array[PeakExplanation] raise PlanError
+
 pub fn lifetimes(Graph) -> Problem raise PlanError
 
 pub fn plan(Problem) -> Layout raise PlanError
@@ -116,6 +118,32 @@ pub fn Layout::from_json(Json, @json.JsonPath) -> Self raise @json.JsonDecodeErr
 pub fn Layout::not_equal(Self, Self) -> Bool
 pub fn Layout::to_json(Self) -> Json
 pub fn Layout::to_repr(Self) -> @debug.Repr
+
+pub(all) struct PeakBuffer {
+  id : String
+  bytes : Int64
+  offset : Int64
+} derive(Eq, ToJson, @debug.Debug)
+pub fn PeakBuffer::equal(Self, Self) -> Bool
+pub fn PeakBuffer::not_equal(Self, Self) -> Bool
+pub fn PeakBuffer::to_json(Self) -> Json
+pub fn PeakBuffer::to_repr(Self) -> @debug.Repr
+
+pub(all) struct PeakExplanation {
+  bank : String
+  capacity : Int64
+  highwater : Int64
+  peak_live_bytes : Int64
+  peak_step : Int32
+  layout_over_budget_by : Int64
+  live_over_budget_by : Int64
+  highwater_minus_peak : Int64
+  live_buffers : Array[PeakBuffer]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn PeakExplanation::equal(Self, Self) -> Bool
+pub fn PeakExplanation::not_equal(Self, Self) -> Bool
+pub fn PeakExplanation::to_json(Self) -> Json
+pub fn PeakExplanation::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Placement {
   id : String
