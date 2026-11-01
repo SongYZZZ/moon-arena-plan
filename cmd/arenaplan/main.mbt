@@ -22,7 +22,7 @@ async fn read_text(path : String) -> String {
 async fn run(args : Array[String]) -> Int32 {
   if args.is_empty() || args == ["--help"] {
     @stdio.stdout.write(
-      "MoonArenaPlan 0.1.0\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure.\n",
+      "MoonArenaPlan 0.2.0-dev\nexact PROBLEM.json [MAX_NODES]\nlifetimes GRAPH.json\nplan PROBLEM.json\nlayout PROBLEM.json\nverify PROBLEM.json LAYOUT.json\nheader PROBLEM.json LAYOUT.json\nExit 0: valid plan; 1: constraint findings; 2: input/usage failure; 3: exact search budget exhausted.\n",
     )
     return 0
   }
@@ -38,6 +38,22 @@ async fn run(args : Array[String]) -> Int32 {
   }
   let problem : @arena.Problem = @arena.decode_problem(read_text(args[1]))
   let command = args[0]
+  if command == "exact" {
+    let budget = if args.length() == 3 {
+      @string.parse_int(args[2])
+    } else {
+      100000
+    }
+    let result = @arena.solve_exact(problem, max_nodes=budget)
+    @stdio.stdout.write(Json(result).stringify(indent=2) + "\n")
+    return if result.status == "solved" {
+      0
+    } else if result.status == "infeasible" {
+      1
+    } else {
+      3
+    }
+  }
   if (command == "plan" || command == "layout") && args.length() == 2 {
     let layout = @arena.plan(problem)
     let findings = @arena.verify(problem, layout)

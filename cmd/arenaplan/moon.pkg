@@ -1,4 +1,5 @@
 import {
+  "moonbitlang/core/string",
   "SongYZZZ/moon-arena-plan" @arena,
   "moonbitlang/core/encoding/utf8",
   "moonbitlang/core/env",
