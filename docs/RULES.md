@@ -8,4 +8,4 @@
 
 官网 https://moonbitlang.github.io/Hackathon2026/ 。其中找到的报名入口：https://bxup9uklfcb.feishu.cn/share/base/form/shrcnWUMlgpbwHaXgzV7HmNhNhg ，章程：https://bxup9uklfcb.feishu.cn/wiki/Dx4Bwd6D1i3GfHkajQCcF7SznEd 。工具未能读取表单实际字段，未提交报名。
 
-旧驳回意见曾写“请勿使用 AI 撰写申报书”；用户随后明确更正，授权准备草稿。APPLICATION.md 是供本人核实的草稿；当前表单的实际声明不能据此视为已经核实或由工具代为确认。
+本文件仅保留规则来源与工程核对；不记录个人报名、资格审核或表单声明。APPLICATION.md 为待本人核实的草稿。
