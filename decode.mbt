@@ -161,3 +161,32 @@ pub fn decode_graph(text : String) -> Graph raise PlanError {
     }
   }
 }
+
+///|
+pub fn decode_trace(text : String) -> ExecutionTrace raise PlanError {
+  let value = json_input(text)
+  let obj = fields(value, ["schema", "banks", "buffers", "events"], "trace")
+  bank_fields(obj)
+  if items(obj, "buffers").length() > 2048 ||
+    items(obj, "events").length() > 65536 {
+    reject("TraceLimit", "maximum 2048 buffers and 65536 events")
+  }
+  for b in items(obj, "buffers") {
+    ignore(
+      fields(
+        b,
+        ["id", "bytes", "alignment", "banks", "fixed_bank", "fixed_offset"],
+        "trace buffer",
+      ),
+    )
+  }
+  for event in items(obj, "events") {
+    ignore(fields(event, ["step", "op", "buffer"], "trace event"))
+  }
+  @json.from_json(value) catch {
+    e => {
+      reject("JsonShape", e.to_string())
+      { schema: 0, banks: [], buffers: [], events: [], }
+    }
+  }
+}
