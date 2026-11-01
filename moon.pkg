@@ -1,0 +1,8 @@
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+import {
+  "SongYZZZ/moon-arena-plan" @arena,
+} for "test"
