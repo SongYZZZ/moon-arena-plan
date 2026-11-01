@@ -237,3 +237,17 @@ pub extend Placement with @json.FromJson::{from_json}
 
 ///|
 pub extend Layout with @json.FromJson::{from_json}
+
+///|
+// Schema IDs are ASCII; use an explicit lexical order across all backends.
+fn id_compare(a : String, b : String) -> Int32 {
+  let x = a.to_array()
+  let y = b.to_array()
+  let n = if x.length() < y.length() { x.length() } else { y.length() }
+  for i in 0..<n {
+    if x[i] != y[i] {
+      return x[i].to_int().compare(y[i].to_int())
+    }
+  }
+  x.length().compare(y.length())
+}

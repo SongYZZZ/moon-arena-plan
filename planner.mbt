@@ -13,7 +13,7 @@ pub fn plan(problem : Problem) -> Layout raise PlanError {
     } else if a.bytes != b.bytes {
       b.bytes.compare(a.bytes)
     } else {
-      a.id.compare(b.id)
+      id_compare(a.id, b.id)
     }
   })
   let capacities : Map[String, Int64] = Map([])
@@ -99,6 +99,6 @@ pub fn plan(problem : Problem) -> Layout raise PlanError {
     placed.push((buffer, placement))
   }
   let placements = placed.map(pair => pair.1)
-  placements.sort_by((a, b) => a.id.compare(b.id))
+  placements.sort_by((a, b) => id_compare(a.id, b.id))
   { schema: 1, placements, }
 }

@@ -284,3 +284,9 @@ test "generated schedules always satisfy independent constraints" {
     assert_true(usage.highwater >= usage.peak_live_bytes)
   }
 }
+
+///|
+test "stable ASCII ID ordering includes unequal lengths" {
+  let p = problem([buf("z", 1L, 0, 0), buf("aa", 1L, 0, 0), buf("a", 1L, 0, 0)])
+  assert_eq(@arena.plan(p).placements.map(p => p.id), ["a", "aa", "z"])
+}

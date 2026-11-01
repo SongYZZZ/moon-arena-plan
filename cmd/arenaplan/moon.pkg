@@ -1,0 +1,11 @@
+import {
+  "SongYZZZ/moon-arena-plan" @arena,
+  "moonbitlang/core/encoding/utf8",
+  "moonbitlang/core/env",
+  "moonbitlang/async",
+  "moonbitlang/async/fs",
+  "moonbitlang/async/stdio",
+  "moonbitlang/x/sys",
+}
+
+pkgtype(kind: "executable")

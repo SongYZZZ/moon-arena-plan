@@ -148,7 +148,7 @@ pub fn summarize(
       fits: highwater <= bank.capacity,
     })
   }
-  result.sort_by((a, b) => a.bank.compare(b.bank))
+  result.sort_by((a, b) => id_compare(a.bank, b.bank))
   result
 }
 
@@ -167,7 +167,7 @@ pub fn c_header(problem : Problem, layout : Layout) -> String raise PlanError {
     by_id[b.id] = b
   }
   let ordered = layout.placements.copy()
-  ordered.sort_by((a, b) => a.id.compare(b.id))
+  ordered.sort_by((a, b) => id_compare(a.id, b.id))
   for i, p in ordered {
     let b = by_id[p.id]
     out.write_string("/* " + p.id + " in " + p.bank + " */\n")

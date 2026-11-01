@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "banks": [
+    {
+      "id": "fast",
+      "capacity": "128"
+    },
+    {
+      "id": "dma",
+      "capacity": "128"
+    }
+  ],
+  "buffers": [
+    {
+      "id": "camera",
+      "bytes": "128",
+      "first": 0,
+      "last": 3,
+      "alignment": "32",
+      "banks": [
+        "dma"
+      ],
+      "fixed_bank": "dma",
+      "fixed_offset": "0"
+    },
+    {
+      "id": "features",
+      "bytes": "128",
+      "first": 1,
+      "last": 2,
+      "alignment": "16",
+      "banks": [
+        "dma",
+        "fast"
+      ],
+      "fixed_bank": null,
+      "fixed_offset": null
+    }
+  ]
+}
