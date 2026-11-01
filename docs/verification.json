@@ -1,5 +1,19 @@
 {
-  "verification": {
+  "module": "SongYZZZ/moon-arena-plan",
+  "version": "0.2.0",
+  "release_commit": "99dc5cb6fcc948ba387664d8a496a7836a0b0e9f",
+  "ci": "https://github.com/SongYZZZ/moon-arena-plan/actions/runs/41293373893",
+  "unit_tests_per_backend": {
+    "native": 53,
+    "js": 53,
+    "wasm-gc": 53
+  },
+  "publication": {
+    "server_status": "200 OK"
+  },
+  "commits_at_release": 11,
+  "implementation_test_or_ci_commits": 10,
+  "blackbox": {
     "random_schedules": 200,
     "reordered_schedules": 200,
     "negative_cli_cases": 5,
@@ -41,42 +55,50 @@
     ],
     "status": "passed"
   },
+  "extensions": {
+    "cartesian_oracle_cases": 160,
+    "solved": 91,
+    "infeasible": 69,
+    "cli_calls": 270,
+    "trace_buffers": 3,
+    "trace_events": 12,
+    "trace_plan_highwater": 48,
+    "greedy_alignment_highwater": 12,
+    "exact_alignment_highwater": 9,
+    "greedy_alignment_kib": 12,
+    "exact_alignment_kib": 9,
+    "status": "passed"
+  },
+  "consumer": {
+    "module": "SongYZZZ/moon-arena-plan",
+    "version": "0.2.0",
+    "source_files_identical": 19,
+    "manifest_identical": true,
+    "native_run": "passed",
+    "js_run": "passed",
+    "wasm_gc_run": "passed",
+    "new_api_paths": [
+      "solve_exact",
+      "explain",
+      "compare_layouts",
+      "trace_lifetimes"
+    ]
+  },
+  "package": {
+    "module": "SongYZZZ/moon-arena-plan",
+    "version": "0.2.0",
+    "files": 60,
+    "cache_and_credentials_excluded": true
+  },
+  "source": {
+    "files": 19,
+    "implementation": 1349,
+    "tests": 954
+  },
   "reference": {
     "reuse": 64,
     "handover": 128,
     "single_arena_concurrent": 256,
     "scope": "upstream planner algorithm with minimal build-only ABI/logging shims; not full TFLM runtime"
-  },
-  "consumer": {
-    "module": "SongYZZZ/moon-arena-plan",
-    "version": "0.1.0",
-    "source_files_identical": 10,
-    "native_run": "passed",
-    "js_check": "passed",
-    "wasm_gc_check": "passed"
-  },
-  "limit-check": {
-    "buffers": 2048,
-    "elapsed_seconds": 0.3067260999996506,
-    "highwater": "49280",
-    "status": "passed",
-    "scope": "synthetic maximum-count profile; elapsed time is machine-specific"
-  },
-  "source-count": {
-    "files": 10,
-    "implementation": 848,
-    "tests": 463
-  },
-  "release_commit": "e0b2e8bdeedd2905907189c511ad88ef4ab0cb40",
-  "ci": "https://github.com/SongYZZZ/moon-arena-plan/actions/runs/41290523478",
-  "unit_tests_per_backend": {
-    "native": 25,
-    "js": 25,
-    "wasm-gc": 25
-  },
-  "publication": {
-    "module": "SongYZZZ/moon-arena-plan",
-    "version": "0.1.0",
-    "server_status": "200 OK"
   }
 }

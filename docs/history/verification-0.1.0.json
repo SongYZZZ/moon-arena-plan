@@ -1,0 +1,82 @@
+{
+  "verification": {
+    "random_schedules": 200,
+    "reordered_schedules": 200,
+    "negative_cli_cases": 5,
+    "scenarios": [
+      {
+        "case": "reuse",
+        "banks": [
+          {
+            "bank": "ram",
+            "capacity": "256",
+            "highwater": "64",
+            "peak_live_bytes": "64",
+            "peak_step": 0,
+            "fits": true
+          }
+        ]
+      },
+      {
+        "case": "dma_banks",
+        "banks": [
+          {
+            "bank": "dma",
+            "capacity": "128",
+            "highwater": "128",
+            "peak_live_bytes": "128",
+            "peak_step": 0,
+            "fits": true
+          },
+          {
+            "bank": "fast",
+            "capacity": "128",
+            "highwater": "128",
+            "peak_live_bytes": "128",
+            "peak_step": 1,
+            "fits": true
+          }
+        ]
+      }
+    ],
+    "status": "passed"
+  },
+  "reference": {
+    "reuse": 64,
+    "handover": 128,
+    "single_arena_concurrent": 256,
+    "scope": "upstream planner algorithm with minimal build-only ABI/logging shims; not full TFLM runtime"
+  },
+  "consumer": {
+    "module": "SongYZZZ/moon-arena-plan",
+    "version": "0.1.0",
+    "source_files_identical": 10,
+    "native_run": "passed",
+    "js_check": "passed",
+    "wasm_gc_check": "passed"
+  },
+  "limit-check": {
+    "buffers": 2048,
+    "elapsed_seconds": 0.3067260999996506,
+    "highwater": "49280",
+    "status": "passed",
+    "scope": "synthetic maximum-count profile; elapsed time is machine-specific"
+  },
+  "source-count": {
+    "files": 10,
+    "implementation": 848,
+    "tests": 463
+  },
+  "release_commit": "e0b2e8bdeedd2905907189c511ad88ef4ab0cb40",
+  "ci": "https://github.com/SongYZZZ/moon-arena-plan/actions/runs/41290523478",
+  "unit_tests_per_backend": {
+    "native": 25,
+    "js": 25,
+    "wasm-gc": 25
+  },
+  "publication": {
+    "module": "SongYZZZ/moon-arena-plan",
+    "version": "0.1.0",
+    "server_status": "200 OK"
+  }
+}
